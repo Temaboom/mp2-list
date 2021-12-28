@@ -21,6 +21,8 @@ TEST(List, can_add_elem_to_empty_list)
 {
 	List l;
 	l.InsertToHead(4);
+
+	ASSERT_NO_THROW(1);
 }
 
 TEST(List, can_add_elem_to_notempty_list)
@@ -44,8 +46,17 @@ TEST(List, can_add_to_tail_2)
 	l.InsertToTail(4);
 	l.InsertToTail(5);
 	l.InsertToTail(6);
+
 	EXPECT_EQ(4, l.ViewHead());
-	// как проверить последний?
+}
+
+TEST(List, can_add_to_tail_3)
+{
+	List l;
+	l.InsertToTail(2);
+	l.InsertToTail(3);
+	l.InsertToTail(4);
+	EXPECT_EQ(4, l.ViewTail());
 }
 
 TEST(List, can_clean_empty_list)
@@ -133,6 +144,88 @@ TEST(List, can_delete3)
 	l.InsertToTail(6);
 
 	ASSERT_NO_THROW(l.Delete(7));
+}
+
+TEST(List, can_search_empty)
+{
+	List l;
+	ASSERT_NO_THROW(l.Search(3));
+
+}
+
+TEST(List, can_inverse_empty)
+{
+	List l;
+	ASSERT_NO_THROW(l.Inverse());
+}
+
+TEST(List, checking_emptiness_after_inversion)
+{
+	List l;
+	l.Inverse();
+	List l2;
+	EXPECT_EQ(l2, l);
+}
+
+TEST(List, checking_two_lists_after_inversion)
+{
+	List l;
+	List l2;
+	l.InsertToTail(1);
+	l.InsertToTail(4);
+	l.InsertToTail(8);
+	l.InsertToTail(10);
+	l.Inverse();
+	l2.InsertToTail(10);
+	l2.InsertToTail(8);
+	l2.InsertToTail(4);
+	l2.InsertToTail(1);
+	EXPECT_EQ(l2, l);
+}
+
+TEST(List, can_compare_two_not_empty_lists)
+{
+	List l;
+	List l2;
+	l.InsertToTail(1);
+	l.InsertToTail(2);
+	l.InsertToTail(3);
+	l.InsertToTail(4);
+	l2.InsertToTail(5);
+	l2.InsertToTail(6);
+	ASSERT_NO_THROW(l == l2);
+}
+
+TEST(List, compare_two_not_equivalent_lists)
+{
+	List l;
+	List l2;
+	l.InsertToTail(1);
+	l.InsertToTail(2);
+	l.InsertToTail(3);
+	l2.InsertToTail(4);
+	l2.InsertToTail(3);
+	l2.InsertToHead(2);
+	ASSERT_NO_THROW(l == l2);
+}
+
+TEST(List, compare_two_not_equivalent_lists_with_bigger_list)
+{
+	List l;
+	List l2;
+	l.InsertToTail(1);
+	l.InsertToTail(2);
+	l2.InsertToTail(8);
+	ASSERT_NO_THROW(l == l2);
+}
+
+TEST(List, compare_list_with_empty_list)
+{
+	List l;
+	List l2;
+	l.InsertToTail(1);
+	l.InsertToTail(2);
+	EXPECT_EQ(false, l == l2);
 }
 
 /*

@@ -43,11 +43,26 @@ public:
 
   bool isEmpty() { return (head == nullptr); }
 //  List(const List& list2);
-//  List& operator=(const List& list2);
+  List& operator=(const List& list2);
   ~List();
 
   void InsertToHead(const DataType& d); // вставить элемент d первым
   DataType ViewHead() { return head->data;  }
+
+  myiterator end()
+  {
+	  auto tmp = head;
+	  while (tmp->next != nullptr)
+	  {
+		  tmp = tmp->next;
+	  }
+	  return myiterator(tmp);
+  }
+
+  DataType ViewTail()
+  {
+	  return *end();
+  }
   void InsertToTail(const DataType& d); // вставить элемент d последним
   void Clean(); // удалить все звенья  
   void Delete(const DataType& d); // удалить звено со значением data = d				
@@ -55,15 +70,19 @@ public:
 				
   //void InsertAfter(Node* node, const DataType& d); // вставить элемент d после звена node
   //Node* Search(const DataType& d); // найти указатель на звено со значением data = d
+ 
+  myiterator Search(const DataType& d);
+
   //int GetSize(); // узнать число звеньев в списке
   //Node* GetHead(); // получить указатель на первое звено списка
 
-  //void Inverse(); // инвертировать список, т.е. звенья должны идти в обратном порядке
+  void Inverse(); // инвертировать список, т.е. звенья должны идти в обратном порядке
+  
   //List Merge(Node* node, const List& list2); // создать список3, добавив список2 в текущий список после указателя node  
   //List Merge(const List& list2); // создать список3, добавив в конец текущего списка список2
 
-  //friend ostream& operator<<(ostream& os, const List& l);
-  //bool operator==(const List& list2) const; // списки равны, если элементы в них идут в одинаковом порядке
+  friend ostream& operator<<(ostream& os, const List& l);
+  bool operator==(const List& list2) const; // списки равны, если элементы в них идут в одинаковом порядке
 };
 
 #endif

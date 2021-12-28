@@ -19,6 +19,31 @@ List::List()
 	head = nullptr;
 }
 
+List& List::operator=(const List& list2)
+{
+	if (this != &list2)
+	{
+		Clean();
+		if (list2.head == NULL)
+		{
+			head = NULL;
+		}
+		else
+		{
+			head = new Node(list2.head->data, list2.head->next);
+			Node* tmp = head;
+			Node* tmp2 = list2.head->next;
+			while (tmp2 != NULL)
+			{
+				tmp->next = new Node(tmp2->data, tmp2->next);
+				tmp = tmp->next;
+				tmp2 = tmp2->next;
+			}
+		}
+	}
+	return *this;
+}
+
 List::~List()
 {
 	Node* tmp, *tmp1; // указатель-ходилка
@@ -109,4 +134,75 @@ void List::Delete(const DataType& d)
 		else
 			prev = prev->next;
 	}
+}
+
+myiterator List::Search(const DataType& d) //поиск указателя на звено со значением data = d
+{
+	Node* tmp = head;
+	myiterator it = begin();
+	while ((tmp != NULL) && (tmp->data == d))
+	{
+		if (tmp == NULL)
+		{
+			return it;
+		}
+		else
+		{
+			tmp = tmp->next;
+			++it;
+		}
+	}
+	return it;
+}
+
+void List::Inverse() // инвертация списка
+{
+	Node* tmp1 = head;
+	Node* tmp2;
+	Node* tmp3;
+	if (head != NULL)
+	{
+		tmp2 = head->next;
+		head->next = NULL;
+		if (tmp2 != NULL)
+		{
+			tmp3 = tmp2->next;
+			while (tmp3 != NULL)
+			{
+				tmp2->next = tmp1;
+				tmp1 = tmp2;
+				tmp2 = tmp3;
+				tmp3 = tmp3->next;
+			}
+			tmp2->next = tmp1;
+			head = tmp2;
+		}
+	}
+}
+
+ostream& operator<<(ostream& os, const List& l)
+{
+	List list;
+	Node* tmp = list.head;
+	while (tmp != NULL)
+	{
+		cout << tmp->data << " ";
+		tmp = tmp->next;
+	}
+	return os;
+}
+
+bool List:: operator ==(const List& list2) const
+{
+	Node* tmp1 = head;
+	Node* tmp2 = list2.head;
+	while ((tmp1 != NULL) && (tmp2 != NULL) && (tmp1->data == tmp2->data))
+	{
+		tmp1 = tmp1->next;
+		tmp2 = tmp2->next;
+	}
+	if ((tmp1 == NULL) && (tmp2 == NULL))
+		return true;
+	else
+		return false;
 }
